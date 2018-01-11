@@ -1,0 +1,10 @@
+body{
+  background: pink;
+}
+h1{
+  font-style: bold;
+  text-align: center;
+  font-family: monospace;
+  color: #5C5C5C;
+  font-size: 50px;
+}

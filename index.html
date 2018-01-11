@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hello World</title>
     <link rel="stylesheet" href="style.css"/>
+    <script type="text/javascript" src="script.js">
+    </script>
   </head>
   <body>
 
@@ -25,36 +27,5 @@
   </div>
 </div>
 
-  <script type="text/javascript">
-    function getUserMedia(options, successCallback, failureCallback) {
-    var api = navigator.getUserMedia || navigator.webkitGetUserMedia ||
-      navigator.mozGetUserMedia || navigator.msGetUserMedia;
-    if (api) {
-    return api.bind(navigator)(options, successCallback, failureCallback);
-    }
-    }
-
-    function getStream (type) {
-    if (!navigator.getUserMedia && !navigator.webkitGetUserMedia &&
-      !navigator.mozGetUserMedia && !navigator.msGetUserMedia) {
-      alert('User Media API not supported.');
-    return;
-  }
-
-    var constraints = {};
-    constraints[type] = true;
-    getUserMedia(constraints, function (stream) {
-    var mediaControl = document.querySelector(type);
-    if (navigator.mozGetUserMedia) {
-    mediaControl.mozSrcObject = stream;
-    } else {
-      mediaControl.srcObject = stream;
-      mediaControl.src = (window.URL || window.webkitURL).createObjectURL(stream);
-    }
-    }, function (err) {
-        alert('Error: ' + err);
-    });
-    }
-  </script>
   </body>
 </html>

@@ -1,29 +1,11 @@
-function getUserMedia(options, successCallback, failureCallback) {
-var api = navigator.getUserMedia || navigator.webkitGetUserMedia ||
-  navigator.mozGetUserMedia || navigator.msGetUserMedia;
-if (api) {
-return api.bind(navigator)(options, successCallback, failureCallback);
-}
-}
+var constraints = { audio: true, video: { width: 1280, height: 720 } };
 
-function getStream (type) {
-if (!navigator.getUserMedia && !navigator.webkitGetUserMedia &&
-  !navigator.mozGetUserMedia && !navigator.msGetUserMedia) {
-  alert('User Media API not supported.');
-return;
-}
-
-var constraints = {};
-constraints[type] = true;
-getUserMedia(constraints, function (stream) {
-var mediaControl = document.querySelector(type);
-if (navigator.mozGetUserMedia) {
-mediaControl.mozSrcObject = stream;
-} else {
-  mediaControl.srcObject = stream;
-  mediaControl.src = (window.URL || window.webkitURL).createObjectURL(stream);
-}
-}, function (err) {
-    alert('Error: ' + err);
-});
-}
+navigator.mediaDevices.getUserMedia(constraints)
+.then(function(mediaStream) {
+  var video = document.querySelector('video');
+  video.srcObject = mediaStream;
+  video.onloadedmetadata = function(e) {
+    video.play();
+  };
+})
+.catch(function(err) { console.log(err.name + ": " + err.message); }); // always check for errors at the end.
